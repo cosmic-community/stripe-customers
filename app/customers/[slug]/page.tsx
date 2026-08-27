@@ -1,6 +1,8 @@
 // app/customers/[slug]/page.tsx
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import {
   getCustomerBySlug,
   getRelatedCustomers,
@@ -90,10 +92,9 @@ export default async function CustomerDetailPage({ params }: PageProps) {
 
       {content && (
         <div className="max-w-[680px] mx-auto px-6 py-16">
-          <div
-            className="prose prose-stripe max-w-none"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
+          <div className="prose prose-stripe max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          </div>
         </div>
       )}
 
