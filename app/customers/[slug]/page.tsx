@@ -1,6 +1,8 @@
 // app/customers/[slug]/page.tsx
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import {
   getCustomerBySlug,
   getRelatedCustomers,
@@ -74,13 +76,13 @@ export default async function CustomerDetailPage({ params }: PageProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-stripe-navy/80 via-stripe-navy/20 to-transparent" />
           </div>
         )}
-        <div className="max-w-[680px] mx-auto px-6 -mt-16 relative">
-          <div className="bg-white rounded-lg shadow-[0_2px_5px_-1px_rgba(50,50,93,0.25),0_1px_3px_-1px_rgba(0,0,0,0.3)] p-8 md:p-12">
-            <h1 className="text-3xl md:text-5xl font-extrabold text-stripe-navy tracking-tight mb-6 leading-tight">
+        <div className="max-w-[920px] mx-auto px-6 -mt-16 relative">
+          <div className="bg-white rounded-lg shadow-[0_2px_5px_-1px_rgba(50,50,93,0.25),0_1px_3px_-1px_rgba(0,0,0,0.3)] p-8 md:p-14">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-stripe-navy tracking-tight mb-6 leading-[1.15] text-balance">
               {customer.title}
             </h1>
             {description && (
-              <p className="text-lg md:text-xl text-stripe-slate leading-relaxed">
+              <p className="text-lg md:text-xl text-stripe-slate leading-relaxed max-w-[680px]">
                 {description}
               </p>
             )}
@@ -90,10 +92,9 @@ export default async function CustomerDetailPage({ params }: PageProps) {
 
       {content && (
         <div className="max-w-[680px] mx-auto px-6 py-16">
-          <div
-            className="prose prose-stripe max-w-none"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
+          <div className="prose prose-stripe max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          </div>
         </div>
       )}
 
