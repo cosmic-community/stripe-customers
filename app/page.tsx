@@ -5,13 +5,29 @@ import StatsBand from '@/components/StatsBand'
 import CTABand from '@/components/CTABand'
 import CustomerCard from '@/components/CustomerCard'
 import { getLatestCustomers } from '@/lib/cosmic'
+import { SITE_DESCRIPTION, SITE_NAME } from '@/lib/seo'
 
 export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Stripe Customers - Customer Stories',
-  description:
-    "Businesses of every size use Stripe's payments platform to build products that increase revenue, drive innovation, and support their customers.",
+  description: SITE_DESCRIPTION,
+  // Changed: canonical + Open Graph/Twitter tags (previously absent)
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    url: '/',
+    title: 'Stripe Customers - Customer Stories',
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Stripe Customers - Customer Stories',
+    description: SITE_DESCRIPTION,
+  },
 }
 
 export default async function HomePage() {

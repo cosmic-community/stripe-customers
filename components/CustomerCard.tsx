@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Customer } from '@/types'
 import { getMetafieldValue } from '@/lib/cosmic'
+import { getFeaturedImageAlt, getFeaturedImageUrl } from '@/lib/seo'
 
 interface CustomerCardProps {
   customer: Customer
@@ -8,8 +9,10 @@ interface CustomerCardProps {
 
 export default function CustomerCard({ customer }: CustomerCardProps) {
   const description = getMetafieldValue(customer.metadata?.seo_description)
-  const imageUrl =
-    customer.metadata?.featured_image?.imgix_url || customer.thumbnail
+  const imageUrl = getFeaturedImageUrl(customer)
+  // Changed: consumes featured_image_alt, falls back to '' rather than the
+  // object title (the link text already names the customer)
+  const imageAlt = getFeaturedImageAlt(customer)
 
   return (
     <Link
@@ -20,7 +23,7 @@ export default function CustomerCard({ customer }: CustomerCardProps) {
         <div className="aspect-[16/9] overflow-hidden bg-stripe-bg">
           <img
             src={`${imageUrl}?w=800&h=450&fit=crop&auto=format,compress`}
-            alt={customer.title}
+            alt={imageAlt}
             width={400}
             height={225}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

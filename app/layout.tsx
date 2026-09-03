@@ -3,11 +3,39 @@ import './globals.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CosmicBadge from '@/components/CosmicBadge'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/seo'
 
 export const metadata: Metadata = {
+  // Changed: metadataBase lets every page emit relative canonical/OG URLs
+  metadataBase: new URL(SITE_URL),
   title: 'Stripe Customers - Customer Stories',
-  description:
-    "Businesses of every size use Stripe's payments platform to build products that increase revenue, drive innovation, and support their customers.",
+  description: SITE_DESCRIPTION,
+  // Changed: sitewide Open Graph + Twitter defaults (previously absent)
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    title: 'Stripe Customers - Customer Stories',
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Stripe Customers - Customer Stories',
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
+
+// Changed: Organization structured data (previously absent)
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
 }
 
 export default function RootLayout({
@@ -39,6 +67,12 @@ export default function RootLayout({
               <script defer src="https://insights.cosmicinsights.dev/script.js" data-project="6a8f9438363cdfe40fa83fbc"></script>
       </head>
       <body className="font-sans bg-white text-stripe-slate antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
         <Nav />
         <main className="pt-16">{children}</main>
         <Footer />
